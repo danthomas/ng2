@@ -19,5 +19,4 @@ import { ListComponent } from './list.component';
     providers : [ROUTER_PROVIDERS]
 })
 export class AppComponent {
-    
 }
