@@ -1,4 +1,4 @@
-System.register(['angular2/core', './shared/grid.component', './shared/column'], function(exports_1, context_1) {
+System.register(['angular2/core', './shared/grid.component', './shared/column', './shared/page'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', './shared/grid.component', './shared/column'],
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, grid_component_1, column_1;
+    var core_1, grid_component_1, column_1, page_1;
     var ListComponent, TestGrid;
     return {
         setters:[
@@ -22,6 +22,9 @@ System.register(['angular2/core', './shared/grid.component', './shared/column'],
             },
             function (column_1_1) {
                 column_1 = column_1_1;
+            },
+            function (page_1_1) {
+                page_1 = page_1_1;
             }],
         execute: function() {
             ListComponent = (function () {
@@ -47,13 +50,28 @@ System.register(['angular2/core', './shared/grid.component', './shared/column'],
             TestGrid = (function () {
                 function TestGrid() {
                 }
-                TestGrid.prototype.getItems = function () {
-                    return [
-                        [1, 'thomasd', 'asfas', 'dd'],
-                        [2, 'jonesg', 'asfas', 'dd'],
-                        [3, 'smithp', 'asfas', 'dd'],
-                        [4, 'browna', 'brown', 'al']
-                    ];
+                TestGrid.prototype.getPage = function (pageIndex) {
+                    var page = new page_1.Page();
+                    page.totalItems = 10;
+                    if (pageIndex == 0) {
+                        page.items = [
+                            [1, 'thomasd', 'asfas', 'dd'],
+                            [2, 'jonesg', 'asfas', 'dd'],
+                            [3, 'smithp', 'asfas', 'dd'],
+                            [4, 'browna', 'brown', 'al'],
+                            [5, 'browna', 'brown', 'al']
+                        ];
+                    }
+                    else if (pageIndex == 1) {
+                        page.items = [
+                            [6, 'sfasdf', 'asfas', 'dd'],
+                            [7, 'jgha;g', 'asfas', 'dd'],
+                            [8, 'ywtqyw', 'asfas', 'dd'],
+                            [9, ',vjzx,c', 'brown', 'al'],
+                            [10, 'hgakd', 'brown', 'al']
+                        ];
+                    }
+                    return page;
                 };
                 return TestGrid;
             }());

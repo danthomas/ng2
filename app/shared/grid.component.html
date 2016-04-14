@@ -16,7 +16,7 @@
 </tr>
 </thead>
 <tbody>
-    <tr *ngFor='#item of items'>
+    <tr *ngFor='#item of page.items'>
         <td><input [ngModel]="isSelected(+item[0])" (click)="onSelectItem(+item[0])" type="checkbox" /></td>
         <td *ngFor='#column of columns, #i = index'>{{item[i + 1]}}</td>
     </tr>

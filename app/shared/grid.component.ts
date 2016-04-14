@@ -1,6 +1,8 @@
 import { Component, Input, Output, OnChanges, SimpleChange, EventEmitter } from 'angular2/core';
 import { Column } from './column';
 import { IGridSource } from './igridSource';
+import { Page } from './page';
+
 
 @Component({
     templateUrl: 'app/shared/grid.component.html',
@@ -8,19 +10,21 @@ import { IGridSource } from './igridSource';
 })
 export class GridComponent implements OnChanges{
     @Input() gridSource : IGridSource
-    
     @Input() columns : Column[];
     @Output() getPage: EventEmitter<number> = new EventEmitter<number>();
     
-    items : any[][];     
+    page : Page;
     logDetails : string;
     allSelected : boolean = false;
     selectedIds : number[] = [];
-    totalItems : number = 0;
+    pageIndex: number = 0;
     
     ngOnChanges(changes: {[propName: string]: SimpleChange}) {
-        this.items = this.gridSource.getItems();
-        this.totalItems = this.items.length;
+        this.getItems();
+    }
+    
+    getItems(){
+        this.page = this.gridSource.getPage(this.pageIndex);
         this.log();
     }
         
@@ -32,7 +36,7 @@ export class GridComponent implements OnChanges{
             this.selectedIds.push(id);
         }        
         
-        if (this.totalItems == this.selectedIds.length){
+        if (this.page.totalItems == this.selectedIds.length){
                 this.selectedIds = [];
                 this.allSelected = !this.allSelected;   
         } 
@@ -52,11 +56,13 @@ export class GridComponent implements OnChanges{
     }
     
     onPrev(){
-        
+        this.pageIndex--;
+        this.getItems();
     }
     
     onNext(){
-        
+        this.pageIndex++;
+        this.getItems();
     }
     
     isSelected(id){
@@ -73,6 +79,6 @@ export class GridComponent implements OnChanges{
         console.log('' + this.isSelected(1) + this.isSelected(2) + this.isSelected(3) + this.isSelected(4));
         
                
-        this.logDetails = 'totalItems:' + this.totalItems + ' allSelected:' + this.allSelected + ' selectedIds:[' + this.selectedIds + ']';
+        this.logDetails = 'totalItems:' + this.page.totalItems + ' allSelected:' + this.allSelected + ' selectedIds:[' + this.selectedIds + ']';
     }
 }

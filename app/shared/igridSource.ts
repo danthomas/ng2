@@ -1,4 +1,5 @@
+import {Page} from './page';
+
 export interface IGridSource{
-    getItems() : any[][];   
-    
+    getPage(pageIndex: number) : Page;
 }
