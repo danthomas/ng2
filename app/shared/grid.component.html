@@ -1,0 +1,21 @@
+<h1>{{data}}</h1>
+<div>
+    
+    allSelected: {{allSelected}} totalItems: {{totalItems}} selectedIds: {{selectedIds}}
+</div>
+<div class='table-responsive'>
+<table class='table'>
+<thead>
+<tr>
+    <td><input [checked]="allSelected" (click)="onSelectAll()" type="checkbox" /></td>
+    <th *ngFor='#column of columns'>{{column.text}}</th>
+</tr>
+</thead>
+<tbody>
+    <tr *ngFor='#item of items'>
+        <td><input [checked]="isSelected(+item[0])" (click)="onSelectItem(+item[0])" type="checkbox" /></td>
+        <td *ngFor='#column of columns, #i = index'>{{item[i + 1]}}</td>
+    </tr>
+</tbody>
+</table>
+</div>
