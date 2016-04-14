@@ -36,6 +36,8 @@ System.register(['angular2/core', './shared/grid.component', './shared/column'],
                         new column_1.Column("First NameX"),
                         new column_1.Column("Last NameX")];
                 }
+                ListComponent.prototype.ngOnInit = function () {
+                };
                 ListComponent = __decorate([
                     core_1.Component({
                         template: '<grid [items]="items" [columns]="columns"></grid>',

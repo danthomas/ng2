@@ -1,4 +1,4 @@
-import { Component } from 'angular2/core';
+import { Component, OnInit } from 'angular2/core';
 
 import { GridComponent } from './shared/grid.component';
 import { Column } from './shared/column';
@@ -7,7 +7,7 @@ import { Column } from './shared/column';
     template: '<grid [items]="items" [columns]="columns"></grid>',
     directives : [GridComponent],
 })
-export class ListComponent {
+export class ListComponent implements OnInit {
     items : any[][] = [
             [1, 'thomasd', 'asfas', 'dd'],
             [2, 'jonesg', 'asfas', 'dd'],
@@ -19,4 +19,7 @@ export class ListComponent {
         new Column("First NameX"), 
         new Column("Last NameX")]
     
+    ngOnInit(){
+        
+    }
 }

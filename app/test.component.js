@@ -20,10 +20,27 @@ System.register(['angular2/core'], function(exports_1, context_1) {
         execute: function() {
             TestComponent = (function () {
                 function TestComponent() {
+                    this.value = 'abcd';
+                    this.allSelected = false;
+                    this.selected = [true, false, true];
                 }
+                TestComponent.prototype.isSelected = function (index) {
+                    return this.allSelected || this.selected[index];
+                };
+                TestComponent.prototype.onAllSelectedClick = function (index) {
+                    this.allSelected = !this.allSelected;
+                    this.log();
+                };
+                TestComponent.prototype.onClick = function (index) {
+                    this.selected[index] = !this.selected[index];
+                    this.log();
+                };
+                TestComponent.prototype.log = function () {
+                    this.logDetails = '' + this.allSelected + ' : ' + this.selected;
+                };
                 TestComponent = __decorate([
                     core_1.Component({
-                        template: 'hello'
+                        template: "    \n    \n    <div>{{logDetails}}</div>\n    \n    \n    <div><input type='checkBox' [ngModel]='allSelected' (click)='onAllSelectedClick()' /></div>\n    \n    <div><input type='checkBox' [ngModel]='isSelected(0)' (click)='onClick(0)' /></div>\n    <div><input type='checkBox' [ngModel]='isSelected(1)' (click)='onClick(1)'/></div>\n    <div><input type='checkBox' [ngModel]='isSelected(2)' (click)='onClick(2)'/></div>\n    \n    "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], TestComponent);
