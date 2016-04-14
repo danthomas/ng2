@@ -26,7 +26,8 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     this.totalItems = 0;
                 }
                 GridComponent.prototype.ngOnChanges = function (changes) {
-                    this.totalItems = changes['items'].currentValue.length;
+                    this.items = this.gridSource.getItems();
+                    this.totalItems = this.items.length;
                     this.log();
                 };
                 GridComponent.prototype.onSelectItem = function (id) {
@@ -44,7 +45,12 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     this.log();
                 };
                 GridComponent.prototype.onSelectAll = function () {
-                    this.allSelected = !this.allSelected;
+                    if (this.allSelected && this.selectedIds.length > 0) {
+                        this.allSelected = true;
+                    }
+                    else {
+                        this.allSelected = !this.allSelected;
+                    }
                     this.selectedIds = [];
                     this.log();
                 };
@@ -53,18 +59,21 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 GridComponent.prototype.onNext = function () {
                 };
                 GridComponent.prototype.isSelected = function (id) {
-                    return this.allSelected || this.selectedIds.indexOf(id, 0) >= 0;
+                    return (this.allSelected && this.selectedIds.indexOf(id, 0) == -1)
+                        || (!this.allSelected && this.selectedIds.indexOf(id, 0) != -1);
                 };
                 GridComponent.prototype.isAllSelected = function () {
                     return this.allSelected && this.selectedIds.length == 0;
                 };
                 GridComponent.prototype.log = function () {
+                    console.log(this.selectedIds);
+                    console.log('' + this.isSelected(1) + this.isSelected(2) + this.isSelected(3) + this.isSelected(4));
                     this.logDetails = 'totalItems:' + this.totalItems + ' allSelected:' + this.allSelected + ' selectedIds:[' + this.selectedIds + ']';
                 };
                 __decorate([
                     core_1.Input(), 
-                    __metadata('design:type', String)
-                ], GridComponent.prototype, "items", void 0);
+                    __metadata('design:type', Object)
+                ], GridComponent.prototype, "gridSource", void 0);
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', Array)

@@ -2,18 +2,16 @@ import { Component, OnInit } from 'angular2/core';
 
 import { GridComponent } from './shared/grid.component';
 import { Column } from './shared/column';
+import { IGridSource } from './shared/igridSource';
 
 @Component({
-    template: '<grid [items]="items" [columns]="columns"></grid>',
+    template: '<grid [columns]="columns" [gridSource]="gridSource"></grid>',
     directives : [GridComponent],
 })
 export class ListComponent implements OnInit {
-    items : any[][] = [
-            [1, 'thomasd', 'asfas', 'dd'],
-            [2, 'jonesg', 'asfas', 'dd'],
-            [3, 'smithp', 'asfas', 'dd']
-            ];
-            
+    
+    gridSource : IGridSource = new TestGrid();
+    
     columns : Column[] = [
         new Column("User NameX"), 
         new Column("First NameX"), 
@@ -21,5 +19,15 @@ export class ListComponent implements OnInit {
     
     ngOnInit(){
         
+    }
+}
+export class TestGrid implements IGridSource{
+    getItems() : any[][]{
+        return [
+            [1, 'thomasd', 'asfas', 'dd'],
+            [2, 'jonesg', 'asfas', 'dd'],
+            [3, 'smithp', 'asfas', 'dd'],
+            [4, 'browna', 'brown', 'al']
+            ];
     }
 }

@@ -11,7 +11,7 @@ System.register(['angular2/core', './shared/grid.component', './shared/column'],
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, grid_component_1, column_1;
-    var ListComponent;
+    var ListComponent, TestGrid;
     return {
         setters:[
             function (core_1_1) {
@@ -26,11 +26,7 @@ System.register(['angular2/core', './shared/grid.component', './shared/column'],
         execute: function() {
             ListComponent = (function () {
                 function ListComponent() {
-                    this.items = [
-                        [1, 'thomasd', 'asfas', 'dd'],
-                        [2, 'jonesg', 'asfas', 'dd'],
-                        [3, 'smithp', 'asfas', 'dd']
-                    ];
+                    this.gridSource = new TestGrid();
                     this.columns = [
                         new column_1.Column("User NameX"),
                         new column_1.Column("First NameX"),
@@ -40,7 +36,7 @@ System.register(['angular2/core', './shared/grid.component', './shared/column'],
                 };
                 ListComponent = __decorate([
                     core_1.Component({
-                        template: '<grid [items]="items" [columns]="columns"></grid>',
+                        template: '<grid [columns]="columns" [gridSource]="gridSource"></grid>',
                         directives: [grid_component_1.GridComponent],
                     }), 
                     __metadata('design:paramtypes', [])
@@ -48,6 +44,20 @@ System.register(['angular2/core', './shared/grid.component', './shared/column'],
                 return ListComponent;
             }());
             exports_1("ListComponent", ListComponent);
+            TestGrid = (function () {
+                function TestGrid() {
+                }
+                TestGrid.prototype.getItems = function () {
+                    return [
+                        [1, 'thomasd', 'asfas', 'dd'],
+                        [2, 'jonesg', 'asfas', 'dd'],
+                        [3, 'smithp', 'asfas', 'dd'],
+                        [4, 'browna', 'brown', 'al']
+                    ];
+                };
+                return TestGrid;
+            }());
+            exports_1("TestGrid", TestGrid);
         }
     }
 });
