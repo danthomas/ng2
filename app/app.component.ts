@@ -11,7 +11,7 @@ import { ListComponent } from './list.component';
     { path: '/list', name: 'List', component: ListComponent }
 ])
 @Component({
-    template: `<div class='container'>
+    template: `<div>Testing</div><div class='container'>
             <router-outlet></router-outlet>
         </div>`, 
     selector : 'app',

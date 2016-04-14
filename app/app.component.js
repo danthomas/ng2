@@ -36,7 +36,7 @@ System.register(['angular2/core', 'angular2/router', './test.component', './list
                         { path: '/list', name: 'List', component: list_component_1.ListComponent }
                     ]),
                     core_1.Component({
-                        template: "<div class='container'>\n            <router-outlet></router-outlet>\n        </div>",
+                        template: "<div>Testing</div><div class='container'>\n            <router-outlet></router-outlet>\n        </div>",
                         selector: 'app',
                         directives: [router_1.ROUTER_DIRECTIVES],
                         providers: [router_1.ROUTER_PROVIDERS]
