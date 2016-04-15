@@ -23,10 +23,14 @@ System.register(['angular2/core', './paging'], function(exports_1, context_1) {
         execute: function() {
             GridComponent = (function () {
                 function GridComponent() {
+                    var _this = this;
                     this.getPage = new core_1.EventEmitter();
                     this.allSelected = false;
                     this.selectedIds = [];
                     this.paging = new paging_1.Paging(0, 5);
+                    this.paging.changed.subscribe(function (i) {
+                        _this.getItems();
+                    });
                 }
                 GridComponent.prototype.ngOnChanges = function (changes) {
                     this.getItems();
@@ -61,20 +65,16 @@ System.register(['angular2/core', './paging'], function(exports_1, context_1) {
                     this.log();
                 };
                 GridComponent.prototype.first = function () {
-                    this.paging.pageIndex = 0;
-                    this.getItems();
+                    this.paging.first();
                 };
                 GridComponent.prototype.onPrev = function () {
-                    this.paging.pageIndex--;
-                    this.getItems();
+                    this.paging.prev();
                 };
                 GridComponent.prototype.onNext = function () {
-                    this.paging.pageIndex++;
-                    this.getItems();
+                    this.paging.next();
                 };
                 GridComponent.prototype.last = function () {
-                    this.paging.pageIndex = this.paging.pageCount - 1;
-                    this.getItems();
+                    this.paging.last();
                 };
                 GridComponent.prototype.prevDisabled = function () {
                     return this.paging.pageIndex == 0;

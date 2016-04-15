@@ -20,6 +20,12 @@ export class GridComponent implements OnChanges{
     selectedIds : number[] = [];
     paging : Paging = new Paging(0, 5);
     
+    constructor(){
+        this.paging.changed.subscribe((i) => {
+            this.getItems();
+        });
+    }
+    
     ngOnChanges(changes: {[propName: string]: SimpleChange}) {
         this.getItems();
     }
@@ -58,23 +64,19 @@ export class GridComponent implements OnChanges{
     }
     
     first(){
-        this.paging.pageIndex = 0;
-        this.getItems();
+        this.paging.first();
     }
     
     onPrev(){
-        this.paging.pageIndex--;
-        this.getItems();
+        this.paging.prev();
     }
     
     onNext(){
-        this.paging.pageIndex++;
-        this.getItems();
+        this.paging.next();
     }
     
     last(){
-        this.paging.pageIndex = this.paging.pageCount - 1;
-        this.getItems();
+        this.paging.last();
     }
     
     prevDisabled(){
