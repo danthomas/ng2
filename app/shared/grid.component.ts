@@ -2,6 +2,7 @@ import { Component, Input, Output, OnChanges, SimpleChange, EventEmitter } from 
 import { Column } from './column';
 import { IGridSource } from './igridSource';
 import { Page } from './page';
+import { Paging } from './paging';
 
 
 @Component({
@@ -14,17 +15,18 @@ export class GridComponent implements OnChanges{
     @Output() getPage: EventEmitter<number> = new EventEmitter<number>();
     
     page : Page;
-    logDetails : string;
+    pageDetails : string;
     allSelected : boolean = false;
     selectedIds : number[] = [];
-    pageIndex: number = 0;
+    paging : Paging = new Paging(0, 5);
     
     ngOnChanges(changes: {[propName: string]: SimpleChange}) {
         this.getItems();
     }
     
     getItems(){
-        this.page = this.gridSource.getPage(this.pageIndex);
+        this.page = this.gridSource.getPage(this.paging);
+        this.paging.pageCount = Math.ceil(this.page.totalItems / this.paging.pageSize);
         this.log();
     }
         
@@ -55,14 +57,32 @@ export class GridComponent implements OnChanges{
         this.log();
     }
     
+    first(){
+        this.paging.pageIndex = 0;
+        this.getItems();
+    }
+    
     onPrev(){
-        this.pageIndex--;
+        this.paging.pageIndex--;
         this.getItems();
     }
     
     onNext(){
-        this.pageIndex++;
+        this.paging.pageIndex++;
         this.getItems();
+    }
+    
+    last(){
+        this.paging.pageIndex = this.paging.pageCount - 1;
+        this.getItems();
+    }
+    
+    prevDisabled(){
+        return this.paging.pageIndex == 0;
+    }
+    
+    nextDisabled(){
+        return this.paging.pageIndex == this.paging.pageCount - 1;
     }
     
     isSelected(id){
@@ -75,10 +95,11 @@ export class GridComponent implements OnChanges{
     }
     
     log(){
-        console.log(this.selectedIds);
-        console.log('' + this.isSelected(1) + this.isSelected(2) + this.isSelected(3) + this.isSelected(4));
+        //console.log(this.selectedIds);
+        //console.log('' + this.isSelected(1) + this.isSelected(2) + this.isSelected(3) + this.isSelected(4));
         
                
-        this.logDetails = 'totalItems:' + this.page.totalItems + ' allSelected:' + this.allSelected + ' selectedIds:[' + this.selectedIds + ']';
+        this.pageDetails = 'page ' + (this.paging.pageIndex + 1) + ' of ' + this.paging.pageCount + ' totalItems:' + this.page.totalItems + ' allSelected:' + this.allSelected + ' selectedIds:[' + this.selectedIds + ']';
     }
 }
+

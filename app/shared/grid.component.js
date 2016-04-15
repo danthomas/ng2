@@ -1,4 +1,4 @@
-System.register(['angular2/core'], function(exports_1, context_1) {
+System.register(['angular2/core', './paging'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,12 +10,15 @@ System.register(['angular2/core'], function(exports_1, context_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1;
+    var core_1, paging_1;
     var GridComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (paging_1_1) {
+                paging_1 = paging_1_1;
             }],
         execute: function() {
             GridComponent = (function () {
@@ -23,13 +26,14 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     this.getPage = new core_1.EventEmitter();
                     this.allSelected = false;
                     this.selectedIds = [];
-                    this.pageIndex = 0;
+                    this.paging = new paging_1.Paging(0, 5);
                 }
                 GridComponent.prototype.ngOnChanges = function (changes) {
                     this.getItems();
                 };
                 GridComponent.prototype.getItems = function () {
-                    this.page = this.gridSource.getPage(this.pageIndex);
+                    this.page = this.gridSource.getPage(this.paging);
+                    this.paging.pageCount = Math.ceil(this.page.totalItems / this.paging.pageSize);
                     this.log();
                 };
                 GridComponent.prototype.onSelectItem = function (id) {
@@ -56,13 +60,27 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     this.selectedIds = [];
                     this.log();
                 };
+                GridComponent.prototype.first = function () {
+                    this.paging.pageIndex = 0;
+                    this.getItems();
+                };
                 GridComponent.prototype.onPrev = function () {
-                    this.pageIndex--;
+                    this.paging.pageIndex--;
                     this.getItems();
                 };
                 GridComponent.prototype.onNext = function () {
-                    this.pageIndex++;
+                    this.paging.pageIndex++;
                     this.getItems();
+                };
+                GridComponent.prototype.last = function () {
+                    this.paging.pageIndex = this.paging.pageCount - 1;
+                    this.getItems();
+                };
+                GridComponent.prototype.prevDisabled = function () {
+                    return this.paging.pageIndex == 0;
+                };
+                GridComponent.prototype.nextDisabled = function () {
+                    return this.paging.pageIndex == this.paging.pageCount - 1;
                 };
                 GridComponent.prototype.isSelected = function (id) {
                     return (this.allSelected && this.selectedIds.indexOf(id, 0) == -1)
@@ -72,9 +90,9 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     return this.allSelected && this.selectedIds.length == 0;
                 };
                 GridComponent.prototype.log = function () {
-                    console.log(this.selectedIds);
-                    console.log('' + this.isSelected(1) + this.isSelected(2) + this.isSelected(3) + this.isSelected(4));
-                    this.logDetails = 'totalItems:' + this.page.totalItems + ' allSelected:' + this.allSelected + ' selectedIds:[' + this.selectedIds + ']';
+                    //console.log(this.selectedIds);
+                    //console.log('' + this.isSelected(1) + this.isSelected(2) + this.isSelected(3) + this.isSelected(4));
+                    this.pageDetails = 'page ' + (this.paging.pageIndex + 1) + ' of ' + this.paging.pageCount + ' totalItems:' + this.page.totalItems + ' allSelected:' + this.allSelected + ' selectedIds:[' + this.selectedIds + ']';
                 };
                 __decorate([
                     core_1.Input(), 
