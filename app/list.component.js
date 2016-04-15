@@ -50,35 +50,42 @@ System.register(['angular2/core', './shared/grid.component', './shared/column', 
             TestGrid = (function () {
                 function TestGrid() {
                     this.items = [
-                        [1, 'thomasd', 'asfas', 'dd'],
-                        [2, 'jonesg', 'asfas', 'dd'],
-                        [3, 'smithp', 'asfas', 'dd'],
-                        [4, 'browna', 'brown', 'al'],
-                        [5, 'browna', 'brown', 'al'],
-                        [6, 'sfasdf', 'asfas', 'dd'],
-                        [7, 'jgha;g', 'asfas', 'dd'],
-                        [8, 'ywtqyw', 'asfas', 'dd'],
-                        [9, ',vjzx,c', 'brown', 'al'],
-                        [10, 'hgakd', 'brown', 'al'],
-                        [11, 'jonesg', 'asfas', 'dd'],
-                        [12, 'jonesg', 'asfas', 'dd'],
-                        [13, 'jonesg', 'asfas', 'dd'],
-                        [14, 'jonesg', 'asfas', 'dd'],
-                        [15, 'jonesg', 'asfas', 'dd'],
-                        [16, 'smithp', 'asfas', 'dd'],
-                        [17, 'browna', 'brown', 'al'],
-                        [18, 'browna', 'brown', 'al'],
-                        [19, 'sfasdf', 'asfas', 'dd'],
-                        [20, 'jgha;g', 'asfas', 'dd'],
-                        [21, 'ywtqyw', 'asfas', 'dd']
+                        [1, '1thomasd', 'asfas', 'dd'],
+                        [2, '2jonesg', 'asfas', 'dd'],
+                        [3, '3smithp', 'asfas', 'dd'],
+                        [4, '4browna', 'brown', 'al'],
+                        [5, '5browna', 'brown', 'al'],
+                        [6, '6sfasdf', 'asfas', 'dd'],
+                        [7, '7jgha;g', 'asfas', 'dd'],
+                        [8, '8ywtqyw', 'asfas', 'dd'],
+                        [9, '9vjzx,c', 'brown', 'al'],
+                        [10, '10hgakd', 'brown', 'al'],
+                        [11, '11jonesg', 'asfas', 'dd'],
+                        [12, '12jonesg', 'asfas', 'dd'],
+                        [13, '13jonesg', 'asfas', 'dd'],
+                        [14, '14jonesg', 'asfas', 'dd'],
+                        [15, '15jonesg', 'asfas', 'dd'],
+                        [16, '16smithp', 'asfas', 'dd'],
+                        [17, '17browna', 'brown', 'al'],
+                        [18, '18browna', 'brown', 'al'],
+                        [19, '19sfasdf', 'asfas', 'dd'],
+                        [20, '20jgha;g', 'asfas', 'dd'],
+                        [21, '21ywtqyw', 'asfas', 'dd']
                     ];
                 }
                 TestGrid.prototype.getPage = function (paging) {
-                    var page = new page_1.Page();
-                    page.totalItems = this.items.length;
-                    console.log(paging);
-                    page.items = this.items.slice(paging.pageIndex * paging.pageSize, (paging.pageIndex + 1) * paging.pageSize);
-                    return page;
+                    console.log('getting data');
+                    var totalCount = this.items.length;
+                    var pageIndex = paging.pageIndex;
+                    var startIndex = paging.pageIndex * paging.pageSize;
+                    if (paging.pageIndex * paging.pageSize > totalCount) {
+                        pageIndex = Math.floor(totalCount / paging.pageSize);
+                        startIndex = pageIndex * paging.pageSize;
+                    }
+                    var endIndex = startIndex + paging.pageSize;
+                    console.log(startIndex);
+                    console.log(endIndex);
+                    return new page_1.Page(this.items.slice(startIndex, endIndex), pageIndex, totalCount, [5, 10, 25, 50, 100]);
                 };
                 return TestGrid;
             }());

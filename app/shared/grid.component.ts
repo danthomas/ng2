@@ -18,7 +18,7 @@ export class GridComponent implements OnChanges{
     pageDetails : string;
     allSelected : boolean = false;
     selectedIds : number[] = [];
-    paging : Paging = new Paging(0, 5);
+    paging : Paging = new Paging(0, 10);
     
     constructor(){
         this.paging.changed.subscribe((i) => {
@@ -32,7 +32,9 @@ export class GridComponent implements OnChanges{
     
     getItems(){
         this.page = this.gridSource.getPage(this.paging);
-        this.paging.pageCount = Math.ceil(this.page.totalItems / this.paging.pageSize);
+        this.paging.pageIndex = this.page.pageIndex;
+        this.paging.totalCount = this.page.totalCount;
+        this.paging.pageSizes = this.page.pageSizes;
         this.log();
     }
         
@@ -44,11 +46,10 @@ export class GridComponent implements OnChanges{
             this.selectedIds.push(id);
         }        
         
-        if (this.page.totalItems == this.selectedIds.length){
+        if (this.page.totalCount == this.selectedIds.length){
                 this.selectedIds = [];
                 this.allSelected = !this.allSelected;   
-        } 
-        
+        }        
         this.log();
     }
         
@@ -61,6 +62,11 @@ export class GridComponent implements OnChanges{
             
         this.selectedIds = [];
         this.log();
+    }
+    
+    onPageSizeChanged(pageSize){
+        console.log(pageSize);
+        this.paging.pageSize = pageSize;
     }
     
     first(){
@@ -80,11 +86,11 @@ export class GridComponent implements OnChanges{
     }
     
     prevDisabled(){
-        return this.paging.pageIndex == 0;
+        return this.paging.prevDisabled;
     }
     
     nextDisabled(){
-        return this.paging.pageIndex == this.paging.pageCount - 1;
+        return this.paging.nextDisabled;
     }
     
     isSelected(id){
@@ -101,7 +107,7 @@ export class GridComponent implements OnChanges{
         //console.log('' + this.isSelected(1) + this.isSelected(2) + this.isSelected(3) + this.isSelected(4));
         
                
-        this.pageDetails = 'page ' + (this.paging.pageIndex + 1) + ' of ' + this.paging.pageCount + ' totalItems:' + this.page.totalItems + ' allSelected:' + this.allSelected + ' selectedIds:[' + this.selectedIds + ']';
+        this.pageDetails = this.paging.text + ' allSelected:' + this.allSelected + ' selectedIds:[' + this.selectedIds + ']';
     }
 }
 

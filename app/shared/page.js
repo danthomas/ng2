@@ -6,7 +6,11 @@ System.register([], function(exports_1, context_1) {
         setters:[],
         execute: function() {
             Page = (function () {
-                function Page() {
+                function Page(items, pageIndex, totalCount, pageSizes) {
+                    this.items = items;
+                    this.pageIndex = pageIndex;
+                    this.totalCount = totalCount;
+                    this.pageSizes = pageSizes;
                 }
                 return Page;
             }());

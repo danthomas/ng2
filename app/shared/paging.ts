@@ -1,34 +1,86 @@
 import { EventEmitter } from 'angular2/core';
 
 export class Paging{
-    pageIndex :  number = 0;
-    pageSize : number = 5;
-    pageCount : number;
-    changed : EventEmitter<number>;
+    private _pageIndex :  number;
+    private _pageSize : number;
+    private _totalCount : number;
+    private _pageCount : number;
+    private _pageSizes : number[]
+    
+    changed : EventEmitter<any>;
     
     constructor(pageIndex : number, pageSize : number){
-        this.pageIndex = pageIndex;
-        this.pageSize = pageSize;
-        this.changed = new EventEmitter<number>();
+        this._pageIndex = pageIndex;
+        this._pageSize = pageSize;
+        
+        this.changed = new EventEmitter<any>();
+    }
+    
+    set totalCount(totalCount : number){
+        this._totalCount = totalCount;
+        this._pageCount = Math.ceil(this._totalCount / this._pageSize);
     }
     
     first(){
-        this.pageIndex = 0;
-        this.changed.emit(0);
+        this._pageIndex = 0;
+        this.changed.emit(null);
     }
     
     prev(){
-        this.pageIndex--;
-        this.changed.emit(0);
+        this._pageIndex--;
+        this.changed.emit(null);
     }
     
     next(){
-        this.pageIndex++;
-        this.changed.emit(0);
+        this._pageIndex++;
+        this.changed.emit(null);
     }
     
     last(){
-        this.pageIndex = this.pageCount - 1;
-        this.changed.emit(0);
+        this._pageIndex = this._pageCount - 1;
+        this.changed.emit(null);
+    }
+    
+    get prevDisabled(){
+        return this._pageIndex == 0;
+    }
+    
+    get nextDisabled(){
+        return this._pageIndex == this._pageCount - 1;
+    }
+    
+    get text(){
+        return `Page ${this._pageIndex + 1} of ${this._pageCount} , Total Count: ${this._totalCount}`;
+    }
+    
+    get pageIndex(){
+        return this._pageIndex;
+    }
+    
+    set pageIndex(pageIndex : number){
+        this._pageIndex = pageIndex;
+    }
+    
+    get pageSize(){
+        return this._pageSize;
+    }
+    
+    set pageSize(pageSize : number){
+        if (this._pageSize != pageSize){
+            this._pageSize = pageSize;
+            this.changed.emit(null);
+        }
+    } 
+    
+    get pageSizes(){
+        return this._pageSizes;
+    }   
+    
+    set pageSizes(pageSizes : number[]){
+        this._pageSizes = pageSizes;
+    }
+    
+    get totalCount(){
+        return this._totalCount;
     }
 }

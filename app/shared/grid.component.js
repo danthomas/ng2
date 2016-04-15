@@ -27,7 +27,7 @@ System.register(['angular2/core', './paging'], function(exports_1, context_1) {
                     this.getPage = new core_1.EventEmitter();
                     this.allSelected = false;
                     this.selectedIds = [];
-                    this.paging = new paging_1.Paging(0, 5);
+                    this.paging = new paging_1.Paging(0, 10);
                     this.paging.changed.subscribe(function (i) {
                         _this.getItems();
                     });
@@ -37,7 +37,9 @@ System.register(['angular2/core', './paging'], function(exports_1, context_1) {
                 };
                 GridComponent.prototype.getItems = function () {
                     this.page = this.gridSource.getPage(this.paging);
-                    this.paging.pageCount = Math.ceil(this.page.totalItems / this.paging.pageSize);
+                    this.paging.pageIndex = this.page.pageIndex;
+                    this.paging.totalCount = this.page.totalCount;
+                    this.paging.pageSizes = this.page.pageSizes;
                     this.log();
                 };
                 GridComponent.prototype.onSelectItem = function (id) {
@@ -48,7 +50,7 @@ System.register(['angular2/core', './paging'], function(exports_1, context_1) {
                     else {
                         this.selectedIds.push(id);
                     }
-                    if (this.page.totalItems == this.selectedIds.length) {
+                    if (this.page.totalCount == this.selectedIds.length) {
                         this.selectedIds = [];
                         this.allSelected = !this.allSelected;
                     }
@@ -64,6 +66,10 @@ System.register(['angular2/core', './paging'], function(exports_1, context_1) {
                     this.selectedIds = [];
                     this.log();
                 };
+                GridComponent.prototype.onPageSizeChanged = function (pageSize) {
+                    console.log(pageSize);
+                    this.paging.pageSize = pageSize;
+                };
                 GridComponent.prototype.first = function () {
                     this.paging.first();
                 };
@@ -77,10 +83,10 @@ System.register(['angular2/core', './paging'], function(exports_1, context_1) {
                     this.paging.last();
                 };
                 GridComponent.prototype.prevDisabled = function () {
-                    return this.paging.pageIndex == 0;
+                    return this.paging.prevDisabled;
                 };
                 GridComponent.prototype.nextDisabled = function () {
-                    return this.paging.pageIndex == this.paging.pageCount - 1;
+                    return this.paging.nextDisabled;
                 };
                 GridComponent.prototype.isSelected = function (id) {
                     return (this.allSelected && this.selectedIds.indexOf(id, 0) == -1)
@@ -92,7 +98,7 @@ System.register(['angular2/core', './paging'], function(exports_1, context_1) {
                 GridComponent.prototype.log = function () {
                     //console.log(this.selectedIds);
                     //console.log('' + this.isSelected(1) + this.isSelected(2) + this.isSelected(3) + this.isSelected(4));
-                    this.pageDetails = 'page ' + (this.paging.pageIndex + 1) + ' of ' + this.paging.pageCount + ' totalItems:' + this.page.totalItems + ' allSelected:' + this.allSelected + ' selectedIds:[' + this.selectedIds + ']';
+                    this.pageDetails = this.paging.text + ' allSelected:' + this.allSelected + ' selectedIds:[' + this.selectedIds + ']';
                 };
                 __decorate([
                     core_1.Input(), 
