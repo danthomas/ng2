@@ -20,16 +20,16 @@ export class TestComponent {
     allSelected : boolean = false;
     selected : boolean[] = [true, false, true];
     
-    isSelected(index){
+    isSelected(index: number){
         return this.allSelected || this.selected[index];
     }
     
-    onAllSelectedClick(index){
+    onAllSelectedClick(index: number){
         this.allSelected = !this.allSelected;
         this.log();
     }
     
-    onClick(index){
+    onClick(index: number){
         this.selected[index] = !this.selected[index];
         this.log(); 
     }

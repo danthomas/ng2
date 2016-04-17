@@ -21,7 +21,7 @@ export class GridComponent implements OnChanges{
     paging : Paging = new Paging(0, 10);
     
     constructor(){
-        this.paging.changed.subscribe((i) => {
+        this.paging.changed.subscribe(() => {
             this.getItems();
         });
     }
@@ -38,7 +38,7 @@ export class GridComponent implements OnChanges{
         this.log();
     }
         
-    onSelectItem(id){
+    onSelectItem(id : number){
         if (this.selectedIds.indexOf(id, 0) >= 0){
             var index = this.selectedIds.indexOf(id, 0);
             this.selectedIds.splice(index, 1);     
@@ -64,9 +64,8 @@ export class GridComponent implements OnChanges{
         this.log();
     }
     
-    onPageSizeChanged(pageSize){
-        console.log(pageSize);
-        this.paging.pageSize = pageSize;
+    onPageSizeChanged(pageSize : number){
+        this.paging.pageSize = +pageSize;
     }
     
     first(){
@@ -93,7 +92,7 @@ export class GridComponent implements OnChanges{
         return this.paging.nextDisabled;
     }
     
-    isSelected(id){
+    isSelected(id: number){
         return (this.allSelected && this.selectedIds.indexOf(id, 0) == -1)
         || (!this.allSelected && this.selectedIds.indexOf(id, 0) != -1);
     }

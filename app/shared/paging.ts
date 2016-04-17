@@ -41,19 +41,19 @@ export class Paging{
         this.changed.emit(null);
     }
     
-    get prevDisabled(){
+    get prevDisabled() : boolean{
         return this._pageIndex == 0;
     }
     
-    get nextDisabled(){
+    get nextDisabled() : boolean{
         return this._pageIndex == this._pageCount - 1;
     }
     
-    get text(){
+    get text() : string{
         return `Page ${this._pageIndex + 1} of ${this._pageCount} , Total Count: ${this._totalCount}`;
     }
     
-    get pageIndex(){
+    get pageIndex() : number{
         return this._pageIndex;
     }
     
@@ -61,7 +61,7 @@ export class Paging{
         this._pageIndex = pageIndex;
     }
     
-    get pageSize(){
+    get pageSize() : number{
         return this._pageSize;
     }
     
@@ -72,7 +72,7 @@ export class Paging{
         }
     } 
     
-    get pageSizes(){
+    get pageSizes() : number[]{
         return this._pageSizes;
     }   
     
@@ -80,7 +80,7 @@ export class Paging{
         this._pageSizes = pageSizes;
     }
     
-    get totalCount(){
+    get totalCount() : number{
         return this._totalCount;
     }
 }

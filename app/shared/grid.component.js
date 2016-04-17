@@ -28,7 +28,7 @@ System.register(['angular2/core', './paging'], function(exports_1, context_1) {
                     this.allSelected = false;
                     this.selectedIds = [];
                     this.paging = new paging_1.Paging(0, 10);
-                    this.paging.changed.subscribe(function (i) {
+                    this.paging.changed.subscribe(function () {
                         _this.getItems();
                     });
                 }
@@ -67,8 +67,7 @@ System.register(['angular2/core', './paging'], function(exports_1, context_1) {
                     this.log();
                 };
                 GridComponent.prototype.onPageSizeChanged = function (pageSize) {
-                    console.log(pageSize);
-                    this.paging.pageSize = pageSize;
+                    this.paging.pageSize = +pageSize;
                 };
                 GridComponent.prototype.first = function () {
                     this.paging.first();

@@ -1,4 +1,5 @@
 export class Column{
+
     text : string
     
     constructor(text : string){
