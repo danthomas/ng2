@@ -58,7 +58,15 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 });
                 Object.defineProperty(Paging.prototype, "text", {
                     get: function () {
-                        return "Page " + (this._pageIndex + 1) + " of " + this._pageCount + " , Total Count: " + this._totalCount;
+                        var fromItem = (this._pageIndex * this._pageSize) + 1;
+                        var toItem = (this._pageIndex + 1) * this._pageSize;
+                        toItem = this._totalCount < toItem ? this._totalCount : toItem;
+                        if (fromItem == toItem) {
+                            return "Page " + (this._pageIndex + 1) + " of " + this._pageCount + ", Item " + fromItem + " of " + this._totalCount + " Total Items";
+                        }
+                        else {
+                            return "Page " + (this._pageIndex + 1) + " of " + this._pageCount + ", Items " + fromItem + " to " + toItem + " of " + this._totalCount + " Total Items";
+                        }
                     },
                     enumerable: true,
                     configurable: true

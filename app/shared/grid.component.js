@@ -40,7 +40,7 @@ System.register(['angular2/core', './paging'], function(exports_1, context_1) {
                     this.paging.pageIndex = this.page.pageIndex;
                     this.paging.totalCount = this.page.totalCount;
                     this.paging.pageSizes = this.page.pageSizes;
-                    this.log();
+                    this.updateDetails();
                 };
                 GridComponent.prototype.onSelectItem = function (id) {
                     if (this.selectedIds.indexOf(id, 0) >= 0) {
@@ -54,7 +54,7 @@ System.register(['angular2/core', './paging'], function(exports_1, context_1) {
                         this.selectedIds = [];
                         this.allSelected = !this.allSelected;
                     }
-                    this.log();
+                    this.updateDetails();
                 };
                 GridComponent.prototype.onSelectAll = function () {
                     if (this.allSelected && this.selectedIds.length > 0) {
@@ -64,7 +64,7 @@ System.register(['angular2/core', './paging'], function(exports_1, context_1) {
                         this.allSelected = !this.allSelected;
                     }
                     this.selectedIds = [];
-                    this.log();
+                    this.updateDetails();
                 };
                 GridComponent.prototype.onPageSizeChanged = function (pageSize) {
                     this.paging.pageSize = +pageSize;
@@ -94,9 +94,7 @@ System.register(['angular2/core', './paging'], function(exports_1, context_1) {
                 GridComponent.prototype.isAllSelected = function () {
                     return this.allSelected && this.selectedIds.length == 0;
                 };
-                GridComponent.prototype.log = function () {
-                    //console.log(this.selectedIds);
-                    //console.log('' + this.isSelected(1) + this.isSelected(2) + this.isSelected(3) + this.isSelected(4));
+                GridComponent.prototype.updateDetails = function () {
                     this.pageDetails = this.paging.text + ' allSelected:' + this.allSelected + ' selectedIds:[' + this.selectedIds + ']';
                 };
                 __decorate([

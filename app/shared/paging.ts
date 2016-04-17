@@ -50,7 +50,15 @@ export class Paging{
     }
     
     get text() : string{
-        return `Page ${this._pageIndex + 1} of ${this._pageCount} , Total Count: ${this._totalCount}`;
+        let fromItem : number = (this._pageIndex * this._pageSize) + 1;
+        let toItem : number = (this._pageIndex + 1) * this._pageSize;
+        toItem = this._totalCount < toItem ? this._totalCount : toItem;
+        
+        if (fromItem == toItem){
+            return `Page ${this._pageIndex + 1} of ${this._pageCount}, Item ${fromItem} of ${this._totalCount} Total Items`;
+        } else{
+            return `Page ${this._pageIndex + 1} of ${this._pageCount}, Items ${fromItem} to ${toItem} of ${this._totalCount} Total Items`;
+        }
     }
     
     get pageIndex() : number{

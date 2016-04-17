@@ -35,7 +35,7 @@ export class GridComponent implements OnChanges{
         this.paging.pageIndex = this.page.pageIndex;
         this.paging.totalCount = this.page.totalCount;
         this.paging.pageSizes = this.page.pageSizes;
-        this.log();
+        this.updateDetails();
     }
         
     onSelectItem(id : number){
@@ -50,7 +50,7 @@ export class GridComponent implements OnChanges{
                 this.selectedIds = [];
                 this.allSelected = !this.allSelected;   
         }        
-        this.log();
+        this.updateDetails();
     }
         
     onSelectAll(){
@@ -61,7 +61,7 @@ export class GridComponent implements OnChanges{
         }
             
         this.selectedIds = [];
-        this.log();
+        this.updateDetails();
     }
     
     onPageSizeChanged(pageSize : number){
@@ -101,11 +101,7 @@ export class GridComponent implements OnChanges{
         return this.allSelected && this.selectedIds.length == 0;
     }
     
-    log(){
-        //console.log(this.selectedIds);
-        //console.log('' + this.isSelected(1) + this.isSelected(2) + this.isSelected(3) + this.isSelected(4));
-        
-               
+    updateDetails(){       
         this.pageDetails = this.paging.text + ' allSelected:' + this.allSelected + ' selectedIds:[' + this.selectedIds + ']';
     }
 }
