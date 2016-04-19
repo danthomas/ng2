@@ -1,6 +1,7 @@
 import { EventEmitter } from 'angular2/core';
 
 export class Paging{
+    private _allSelected : boolean;
     private _pageIndex :  number;
     private _pageSize : number;
     private _totalCount : number;
@@ -53,12 +54,19 @@ export class Paging{
         let fromItem : number = (this._pageIndex * this._pageSize) + 1;
         let toItem : number = (this._pageIndex + 1) * this._pageSize;
         toItem = this._totalCount < toItem ? this._totalCount : toItem;
+        let ret : string = '';
         
         if (fromItem == toItem){
-            return `Page ${this._pageIndex + 1} of ${this._pageCount}, Item ${fromItem} of ${this._totalCount} Total Items`;
+            ret = `Page ${this._pageIndex + 1} of ${this._pageCount}, Item ${fromItem} of ${this._totalCount} Items`;
         } else{
-            return `Page ${this._pageIndex + 1} of ${this._pageCount}, Items ${fromItem} to ${toItem} of ${this._totalCount} Total Items`;
+            ret = `Page ${this._pageIndex + 1} of ${this._pageCount}, Items ${fromItem} to ${toItem} of ${this._totalCount} Items`;
         }
+        
+        if (this._allSelected){
+            ret += " all items selected";
+        }
+        
+        return ret;
     }
     
     get pageIndex() : number{
@@ -86,6 +94,14 @@ export class Paging{
     
     set pageSizes(pageSizes : number[]){
         this._pageSizes = pageSizes;
+    } 
+    
+    get allSelected() : boolean{
+        return this._allSelected;
+    }   
+    
+    set allSelected(allSelected : boolean){
+        this._allSelected = allSelected;
     }
     
     get totalCount() : number{

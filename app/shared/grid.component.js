@@ -25,7 +25,6 @@ System.register(['angular2/core', './paging'], function(exports_1, context_1) {
                 function GridComponent() {
                     var _this = this;
                     this.getPage = new core_1.EventEmitter();
-                    this.allSelected = false;
                     this.selectedIds = [];
                     this.paging = new paging_1.Paging(0, 10);
                     this.paging.changed.subscribe(function () {
@@ -52,16 +51,16 @@ System.register(['angular2/core', './paging'], function(exports_1, context_1) {
                     }
                     if (this.page.totalCount == this.selectedIds.length) {
                         this.selectedIds = [];
-                        this.allSelected = !this.allSelected;
+                        this.paging.allSelected = !this.paging.allSelected;
                     }
                     this.updateDetails();
                 };
                 GridComponent.prototype.onSelectAll = function () {
-                    if (this.allSelected && this.selectedIds.length > 0) {
-                        this.allSelected = true;
+                    if (this.paging.allSelected && this.selectedIds.length > 0) {
+                        this.paging.allSelected = true;
                     }
                     else {
-                        this.allSelected = !this.allSelected;
+                        this.paging.allSelected = !this.paging.allSelected;
                     }
                     this.selectedIds = [];
                     this.updateDetails();
@@ -88,14 +87,14 @@ System.register(['angular2/core', './paging'], function(exports_1, context_1) {
                     return this.paging.nextDisabled;
                 };
                 GridComponent.prototype.isSelected = function (id) {
-                    return (this.allSelected && this.selectedIds.indexOf(id, 0) == -1)
-                        || (!this.allSelected && this.selectedIds.indexOf(id, 0) != -1);
+                    return (this.paging.allSelected && this.selectedIds.indexOf(id, 0) == -1)
+                        || (!this.paging.allSelected && this.selectedIds.indexOf(id, 0) != -1);
                 };
                 GridComponent.prototype.isAllSelected = function () {
-                    return this.allSelected && this.selectedIds.length == 0;
+                    return this.paging.allSelected && this.selectedIds.length == 0;
                 };
                 GridComponent.prototype.updateDetails = function () {
-                    this.pageDetails = this.paging.text + ' allSelected:' + this.allSelected + ' selectedIds:[' + this.selectedIds + ']';
+                    this.pageDetails = this.paging.text;
                 };
                 __decorate([
                     core_1.Input(), 

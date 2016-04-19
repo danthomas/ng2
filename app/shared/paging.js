@@ -61,12 +61,17 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                         var fromItem = (this._pageIndex * this._pageSize) + 1;
                         var toItem = (this._pageIndex + 1) * this._pageSize;
                         toItem = this._totalCount < toItem ? this._totalCount : toItem;
+                        var ret = '';
                         if (fromItem == toItem) {
-                            return "Page " + (this._pageIndex + 1) + " of " + this._pageCount + ", Item " + fromItem + " of " + this._totalCount + " Total Items";
+                            ret = "Page " + (this._pageIndex + 1) + " of " + this._pageCount + ", Item " + fromItem + " of " + this._totalCount + " Items";
                         }
                         else {
-                            return "Page " + (this._pageIndex + 1) + " of " + this._pageCount + ", Items " + fromItem + " to " + toItem + " of " + this._totalCount + " Total Items";
+                            ret = "Page " + (this._pageIndex + 1) + " of " + this._pageCount + ", Items " + fromItem + " to " + toItem + " of " + this._totalCount + " Items";
                         }
+                        if (this._allSelected) {
+                            ret += " all items selected";
+                        }
+                        return ret;
                     },
                     enumerable: true,
                     configurable: true
@@ -100,6 +105,16 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     },
                     set: function (pageSizes) {
                         this._pageSizes = pageSizes;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(Paging.prototype, "allSelected", {
+                    get: function () {
+                        return this._allSelected;
+                    },
+                    set: function (allSelected) {
+                        this._allSelected = allSelected;
                     },
                     enumerable: true,
                     configurable: true

@@ -16,7 +16,6 @@ export class GridComponent implements OnChanges{
     
     page : Page;
     pageDetails : string;
-    allSelected : boolean = false;
     selectedIds : number[] = [];
     paging : Paging = new Paging(0, 10);
     
@@ -48,16 +47,16 @@ export class GridComponent implements OnChanges{
         
         if (this.page.totalCount == this.selectedIds.length){
                 this.selectedIds = [];
-                this.allSelected = !this.allSelected;   
+                this.paging.allSelected = !this.paging.allSelected;   
         }        
         this.updateDetails();
     }
         
     onSelectAll(){
-        if (this.allSelected && this.selectedIds.length > 0){
-            this.allSelected = true;
+        if (this.paging.allSelected && this.selectedIds.length > 0){
+            this.paging.allSelected = true;
         } else{
-            this.allSelected = !this.allSelected;            
+            this.paging.allSelected = !this.paging.allSelected;            
         }
             
         this.selectedIds = [];
@@ -93,16 +92,16 @@ export class GridComponent implements OnChanges{
     }
     
     isSelected(id: number){
-        return (this.allSelected && this.selectedIds.indexOf(id, 0) == -1)
-        || (!this.allSelected && this.selectedIds.indexOf(id, 0) != -1);
+        return (this.paging.allSelected && this.selectedIds.indexOf(id, 0) == -1)
+        || (!this.paging.allSelected && this.selectedIds.indexOf(id, 0) != -1);
     }
     
     isAllSelected(){
-        return this.allSelected && this.selectedIds.length == 0;
+        return this.paging.allSelected && this.selectedIds.length == 0;
     }
     
     updateDetails(){       
-        this.pageDetails = this.paging.text + ' allSelected:' + this.allSelected + ' selectedIds:[' + this.selectedIds + ']';
+        this.pageDetails = this.paging.text;
     }
 }
 
