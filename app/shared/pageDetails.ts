@@ -1,7 +1,8 @@
-import { PageData } from './PageData';
+import { PageResponse } from './PageResponse';
 
 export class PageDetails{
     private _allSelected : boolean;
+    private _selectedIds : number[] = [];
     private _pageIndex :  number;
     private _pageSize : number;
     private _totalCount : number;
@@ -15,10 +16,11 @@ export class PageDetails{
         this._pageSize = pageSize;
     }
 
-    update(page : PageData){
-        this._pageIndex = page.pageIndex;
-        this._totalCount = page.totalCount;
-        this._pageSizes = page.pageSizes;
+    update(pageResponse : PageResponse){
+        this._items = pageResponse.items;
+        this._pageIndex = pageResponse.pageIndex;
+        this._totalCount = pageResponse.totalCount;
+        this._pageSizes = pageResponse.pageSizes;
         this._pageCount = Math.ceil(this._totalCount / this._pageSize);
 
         this.updateText();
@@ -37,10 +39,48 @@ export class PageDetails{
         }
 
         if (this._allSelected){
-            ret += " all items selected";
+            if (this._selectedIds.length == 0){
+                ret += ` all ${this._totalCount} items selected`;
+            } else {
+                ret += ` ${this._totalCount - this._selectedIds.length} of ${this._totalCount} items selected`;
+            }
+        }
+        else {
+            if (this._selectedIds.length == 0){
+                ret += " no items selected";
+            } else {
+                ret += ` ${this._selectedIds.length} of ${this._totalCount} items selected`;
+            }
+        }
+        this._text = ret;
+    }
+
+    selectItem(id : number){
+        if (this.selectedIds.indexOf(id, 0) >= 0){
+            var index = this.selectedIds.indexOf(id, 0);
+            this.selectedIds.splice(index, 1);
+        } else{
+            this.selectedIds.push(id);
         }
 
-        this._text = ret;
+        if (this.totalCount == this.selectedIds.length){
+                this.selectedIds = [];
+                this.allSelected = !this.allSelected;
+        }
+
+        this.updateText();
+    }
+
+    selectAll(){
+        if (this.allSelected && this.selectedIds.length > 0){
+            this.allSelected = true;
+        } else{
+            this.allSelected = !this.allSelected;
+        }
+
+        this.selectedIds = [];
+
+        this.updateText();
     }
 
     first(){
@@ -59,6 +99,10 @@ export class PageDetails{
         this.pageIndex = this.pageCount - 1;
     }
 
+    get items() : any[][]{
+        return this._items;
+    }
+
     get pageIndex() : number{
         return this._pageIndex;
     }
@@ -71,6 +115,10 @@ export class PageDetails{
         return this._pageSize;
     }
 
+    set pageSize(pageSize : number){
+        this._pageSize = pageSize;
+    }
+
     get pageCount() : number{
         return this._pageCount;
     }
@@ -79,8 +127,22 @@ export class PageDetails{
         return this._totalCount;
     }
 
+    get selectedIds() : number[]{
+        return this._selectedIds;
+    }
+
+    set selectedIds(selectedIds : number[]){
+        this._selectedIds = selectedIds;
+        this.updateText();
+    }
+
     get allSelected() : boolean{
         return this._allSelected;
+    }
+
+    set allSelected(allSelected : boolean){
+        this._allSelected = allSelected;
+        this.updateText();
     }
 
     get pageSizes() : number[]{

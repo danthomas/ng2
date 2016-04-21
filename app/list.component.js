@@ -1,4 +1,4 @@
-System.register(['angular2/core', './shared/grid.component', './shared/column', './shared/pageData'], function(exports_1, context_1) {
+System.register(['angular2/core', './shared/grid.component', './shared/column', './shared/pageResponse'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', './shared/grid.component', './shared/column', 
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, grid_component_1, column_1, pageData_1;
+    var core_1, grid_component_1, column_1, pageResponse_1;
     var ListComponent, TestGrid;
     return {
         setters:[
@@ -23,8 +23,8 @@ System.register(['angular2/core', './shared/grid.component', './shared/column', 
             function (column_1_1) {
                 column_1 = column_1_1;
             },
-            function (pageData_1_1) {
-                pageData_1 = pageData_1_1;
+            function (pageResponse_1_1) {
+                pageResponse_1 = pageResponse_1_1;
             }],
         execute: function() {
             ListComponent = (function () {
@@ -93,17 +93,17 @@ System.register(['angular2/core', './shared/grid.component', './shared/column', 
                         [41, '21ywtqyw', 'asfas', 'dd']
                     ];
                 }
-                TestGrid.prototype.getPage = function (pageDetails) {
+                TestGrid.prototype.getPage = function (pageRequest) {
                     console.log('getting data');
                     var totalCount = this.items.length;
-                    var pageIndex = pageDetails.pageIndex;
-                    var startIndex = pageDetails.pageIndex * pageDetails.pageSize;
-                    if (pageDetails.pageIndex * pageDetails.pageSize > totalCount) {
-                        pageIndex = Math.floor(totalCount / pageDetails.pageSize);
-                        startIndex = pageIndex * pageDetails.pageSize;
+                    var pageIndex = pageRequest.pageIndex;
+                    var startIndex = pageRequest.pageIndex * pageRequest.pageSize;
+                    if (pageRequest.pageIndex * pageRequest.pageSize > totalCount) {
+                        pageIndex = Math.floor(totalCount / pageRequest.pageSize);
+                        startIndex = pageIndex * pageRequest.pageSize;
                     }
-                    var endIndex = startIndex + pageDetails.pageSize;
-                    return new pageData_1.PageData(this.items.slice(startIndex, endIndex), pageIndex, totalCount, [5, 10, 25, 50, 100]);
+                    var endIndex = startIndex + pageRequest.pageSize;
+                    return new pageResponse_1.PageResponse(this.items.slice(startIndex, endIndex), pageIndex, totalCount, [5, 10, 25, 50, 100]);
                 };
                 return TestGrid;
             }());

@@ -3,8 +3,8 @@ import { Component, OnInit } from 'angular2/core';
 import { GridComponent } from './shared/grid.component';
 import { Column } from './shared/column';
 import { IGridSource } from './shared/igridSource';
-import { PageData } from './shared/pageData';
-import { PageDetails } from './shared/pageDetails';
+import { PageRequest } from './shared/pageRequest';
+import { PageResponse } from './shared/pageResponse';
 
 @Component({
     template: '<grid [columns]="columns" [gridSource]="gridSource"></grid>',
@@ -70,20 +70,20 @@ export class TestGrid implements IGridSource{
                 ];
 
 
-    getPage(pageDetails: PageDetails) : PageData{
+    getPage(pageRequest: PageRequest) : PageResponse{
         console.log('getting data');
         let totalCount : number = this.items.length;
-        let pageIndex : number = pageDetails.pageIndex;
-        let startIndex : number = pageDetails.pageIndex * pageDetails.pageSize;
+        let pageIndex : number = pageRequest.pageIndex;
+        let startIndex : number = pageRequest.pageIndex * pageRequest.pageSize;
 
-        if(pageDetails.pageIndex * pageDetails.pageSize > totalCount){
-            pageIndex = Math.floor(totalCount / pageDetails.pageSize);
-            startIndex = pageIndex * pageDetails.pageSize;
+        if(pageRequest.pageIndex * pageRequest.pageSize > totalCount){
+            pageIndex = Math.floor(totalCount / pageRequest.pageSize);
+            startIndex = pageIndex * pageRequest.pageSize;
         }
 
-        let endIndex : number = startIndex + pageDetails.pageSize;
+        let endIndex : number = startIndex + pageRequest.pageSize;
 
-        return new PageData(this.items.slice(startIndex, endIndex),
+        return new PageResponse(this.items.slice(startIndex, endIndex),
         pageIndex,
         totalCount,
         [5, 10, 25, 50, 100]);

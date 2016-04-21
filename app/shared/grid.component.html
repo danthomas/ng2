@@ -1,10 +1,5 @@
 <h1>{{data}}</h1>
 <label>{{pageDetails.text}}</label>
-<div>Page Size: 
-    <select [ngModel]="pageDetails.pageSize" (change)="onPageSizeChanged($event.target.value)">
-        <option *ngFor="#pageSize of pageDetails.pageSizes">{{pageSize}}</option>
-    </select>
-</div>
 <div>
     <paging [pageDetails]="pageDetails" (changed)="onPagingChanged()"></paging>
 </div>
@@ -17,7 +12,7 @@
 </tr>
 </thead>
 <tbody>
-    <tr *ngFor='#item of page.items'>
+    <tr *ngFor='#item of pageDetails.items'>
         <td><input [ngModel]="isSelected(+item[0])" (click)="onSelectItem(+item[0])" type="checkbox" /></td>
         <td *ngFor='#column of columns, #i = index'>{{item[i + 1]}}</td>
     </tr>

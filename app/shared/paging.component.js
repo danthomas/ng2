@@ -1,4 +1,4 @@
-System.register(['angular2/core', './page'], function(exports_1, context_1) {
+System.register(['angular2/core', './pageDetails'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,21 +10,25 @@ System.register(['angular2/core', './page'], function(exports_1, context_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, page_1;
+    var core_1, pageDetails_1;
     var Paging;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (page_1_1) {
-                page_1 = page_1_1;
+            function (pageDetails_1_1) {
+                pageDetails_1 = pageDetails_1_1;
             }],
         execute: function() {
             Paging = (function () {
                 function Paging() {
                     this.changed = new core_1.EventEmitter();
                 }
+                Paging.prototype.onPageSizeChanged = function (pageSize) {
+                    this.pageDetails.pageSize = +pageSize;
+                    this.changed.emit(null);
+                };
                 Paging.prototype.first = function () {
                     this.pageDetails.first();
                     this.changed.emit(null);
@@ -107,7 +111,7 @@ System.register(['angular2/core', './page'], function(exports_1, context_1) {
                 });
                 __decorate([
                     core_1.Input(), 
-                    __metadata('design:type', (typeof (_a = typeof page_1.PageDetails !== 'undefined' && page_1.PageDetails) === 'function' && _a) || Object)
+                    __metadata('design:type', pageDetails_1.PageDetails)
                 ], Paging.prototype, "pageDetails", void 0);
                 __decorate([
                     core_1.Output(), 
@@ -115,13 +119,12 @@ System.register(['angular2/core', './page'], function(exports_1, context_1) {
                 ], Paging.prototype, "changed", void 0);
                 Paging = __decorate([
                     core_1.Component({
-                        template: "\n <div>    paging\n    <button class='btn btn-primary' (click)='first()' [disabled]='prevDisabled'>First</button>\n    <button class='btn btn-primary' (click)='prev()' [disabled]='prevDisabled'>Prev</button>\n    <button class='btn btn-primary' (click)='next()' [disabled]='nextDisabled'>Next</button>\n    <button class='btn btn-primary' (click)='last()' [disabled]='nextDisabled'>Last</button>\n</div>",
+                        template: "Page Size:\n    <select [ngModel]=\"pageSize\" (change)=\"onPageSizeChanged($event.target.value)\">\n        <option *ngFor=\"#pageSize of pageSizes\">{{pageSize}}</option>\n    </select>\n <div>    paging\n    <button class='btn btn-primary' (click)='first()' [disabled]='prevDisabled'>First</button>\n    <button class='btn btn-primary' (click)='prev()' [disabled]='prevDisabled'>Prev</button>\n    <button class='btn btn-primary' (click)='next()' [disabled]='nextDisabled'>Next</button>\n    <button class='btn btn-primary' (click)='last()' [disabled]='nextDisabled'>Last</button>\n</div>",
                         selector: 'paging'
                     }), 
                     __metadata('design:paramtypes', [])
                 ], Paging);
                 return Paging;
-                var _a;
             }());
             exports_1("Paging", Paging);
         }

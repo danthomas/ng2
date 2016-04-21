@@ -1,4 +1,4 @@
-export class PageData{
+export class PageResponse{
     items : any[][];
     pageIndex : number;
     totalCount : number;

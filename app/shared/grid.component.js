@@ -1,4 +1,4 @@
-System.register(['angular2/core', './pageDetails', './paging.component'], function(exports_1, context_1) {
+System.register(['angular2/core', './pageDetails', './pageRequest', './paging.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', './pageDetails', './paging.component'], functi
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, pageDetails_1, paging_component_1;
+    var core_1, pageDetails_1, pageRequest_1, paging_component_1;
     var GridComponent;
     return {
         setters:[
@@ -20,6 +20,9 @@ System.register(['angular2/core', './pageDetails', './paging.component'], functi
             function (pageDetails_1_1) {
                 pageDetails_1 = pageDetails_1_1;
             },
+            function (pageRequest_1_1) {
+                pageRequest_1 = pageRequest_1_1;
+            },
             function (paging_component_1_1) {
                 paging_component_1 = paging_component_1_1;
             }],
@@ -27,7 +30,6 @@ System.register(['angular2/core', './pageDetails', './paging.component'], functi
             GridComponent = (function () {
                 function GridComponent() {
                     this.getPage = new core_1.EventEmitter();
-                    this.selectedIds = [];
                     this.pageDetails = new pageDetails_1.PageDetails(0, 10);
                 }
                 GridComponent.prototype.onPagingChanged = function () {
@@ -37,40 +39,20 @@ System.register(['angular2/core', './pageDetails', './paging.component'], functi
                     this.getItems();
                 };
                 GridComponent.prototype.getItems = function () {
-                    this.page = this.gridSource.getPage(this.pageDetails);
-                    this.pageDetails.update(this.page);
+                    this.pageDetails.update(this.gridSource.getPage(new pageRequest_1.PageRequest(this.pageDetails.pageIndex, this.pageDetails.pageSize)));
                 };
                 GridComponent.prototype.onSelectItem = function (id) {
-                    if (this.selectedIds.indexOf(id, 0) >= 0) {
-                        var index = this.selectedIds.indexOf(id, 0);
-                        this.selectedIds.splice(index, 1);
-                    }
-                    else {
-                        this.selectedIds.push(id);
-                    }
-                    if (this.page.totalCount == this.selectedIds.length) {
-                        this.selectedIds = [];
-                        this.pageDetails.allSelected = !this.pageDetails.allSelected;
-                    }
+                    this.pageDetails.selectItem(id);
                 };
                 GridComponent.prototype.onSelectAll = function () {
-                    if (this.pageDetails.allSelected && this.selectedIds.length > 0) {
-                        this.pageDetails.allSelected = true;
-                    }
-                    else {
-                        this.pageDetails.allSelected = !this.pageDetails.allSelected;
-                    }
-                    this.selectedIds = [];
-                };
-                GridComponent.prototype.onPageSizeChanged = function (pageSize) {
-                    this.pageDetails.pageSize = +pageSize;
+                    this.pageDetails.selectAll();
                 };
                 GridComponent.prototype.isSelected = function (id) {
-                    return (this.pageDetails.allSelected && this.selectedIds.indexOf(id, 0) == -1)
-                        || (!this.pageDetails.allSelected && this.selectedIds.indexOf(id, 0) != -1);
+                    return (this.pageDetails.allSelected && this.pageDetails.selectedIds.indexOf(id, 0) == -1)
+                        || (!this.pageDetails.allSelected && this.pageDetails.selectedIds.indexOf(id, 0) != -1);
                 };
                 GridComponent.prototype.isAllSelected = function () {
-                    return this.pageDetails.allSelected && this.selectedIds.length == 0;
+                    return this.pageDetails.allSelected && this.pageDetails.selectedIds.length == 0;
                 };
                 __decorate([
                     core_1.Input(), 

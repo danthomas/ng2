@@ -7,13 +7,15 @@ System.register([], function(exports_1, context_1) {
         execute: function() {
             PageDetails = (function () {
                 function PageDetails(pageIndex, pageSize) {
+                    this._selectedIds = [];
                     this._pageIndex = pageIndex;
                     this._pageSize = pageSize;
                 }
-                PageDetails.prototype.update = function (page) {
-                    this._pageIndex = page.pageIndex;
-                    this._totalCount = page.totalCount;
-                    this._pageSizes = page.pageSizes;
+                PageDetails.prototype.update = function (pageResponse) {
+                    this._items = pageResponse.items;
+                    this._pageIndex = pageResponse.pageIndex;
+                    this._totalCount = pageResponse.totalCount;
+                    this._pageSizes = pageResponse.pageSizes;
                     this._pageCount = Math.ceil(this._totalCount / this._pageSize);
                     this.updateText();
                 };
@@ -29,9 +31,46 @@ System.register([], function(exports_1, context_1) {
                         ret = "Page " + (this._pageIndex + 1) + " of " + this._pageCount + ", Items " + fromItem + " to " + toItem + " of " + this._totalCount + " Items";
                     }
                     if (this._allSelected) {
-                        ret += " all items selected";
+                        if (this._selectedIds.length == 0) {
+                            ret += " all " + this._totalCount + " items selected";
+                        }
+                        else {
+                            ret += " " + (this._totalCount - this._selectedIds.length) + " of " + this._totalCount + " items selected";
+                        }
+                    }
+                    else {
+                        if (this._selectedIds.length == 0) {
+                            ret += " no items selected";
+                        }
+                        else {
+                            ret += " " + this._selectedIds.length + " of " + this._totalCount + " items selected";
+                        }
                     }
                     this._text = ret;
+                };
+                PageDetails.prototype.selectItem = function (id) {
+                    if (this.selectedIds.indexOf(id, 0) >= 0) {
+                        var index = this.selectedIds.indexOf(id, 0);
+                        this.selectedIds.splice(index, 1);
+                    }
+                    else {
+                        this.selectedIds.push(id);
+                    }
+                    if (this.totalCount == this.selectedIds.length) {
+                        this.selectedIds = [];
+                        this.allSelected = !this.allSelected;
+                    }
+                    this.updateText();
+                };
+                PageDetails.prototype.selectAll = function () {
+                    if (this.allSelected && this.selectedIds.length > 0) {
+                        this.allSelected = true;
+                    }
+                    else {
+                        this.allSelected = !this.allSelected;
+                    }
+                    this.selectedIds = [];
+                    this.updateText();
                 };
                 PageDetails.prototype.first = function () {
                     this.pageIndex = 0;
@@ -45,6 +84,13 @@ System.register([], function(exports_1, context_1) {
                 PageDetails.prototype.last = function () {
                     this.pageIndex = this.pageCount - 1;
                 };
+                Object.defineProperty(PageDetails.prototype, "items", {
+                    get: function () {
+                        return this._items;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 Object.defineProperty(PageDetails.prototype, "pageIndex", {
                     get: function () {
                         return this._pageIndex;
@@ -58,6 +104,9 @@ System.register([], function(exports_1, context_1) {
                 Object.defineProperty(PageDetails.prototype, "pageSize", {
                     get: function () {
                         return this._pageSize;
+                    },
+                    set: function (pageSize) {
+                        this._pageSize = pageSize;
                     },
                     enumerable: true,
                     configurable: true
@@ -76,9 +125,24 @@ System.register([], function(exports_1, context_1) {
                     enumerable: true,
                     configurable: true
                 });
+                Object.defineProperty(PageDetails.prototype, "selectedIds", {
+                    get: function () {
+                        return this._selectedIds;
+                    },
+                    set: function (selectedIds) {
+                        this._selectedIds = selectedIds;
+                        this.updateText();
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 Object.defineProperty(PageDetails.prototype, "allSelected", {
                     get: function () {
                         return this._allSelected;
+                    },
+                    set: function (allSelected) {
+                        this._allSelected = allSelected;
+                        this.updateText();
                     },
                     enumerable: true,
                     configurable: true

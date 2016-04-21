@@ -1,8 +1,9 @@
 import { Component, Input, Output, OnChanges, SimpleChange, EventEmitter } from 'angular2/core';
 import { Column } from './column';
 import { IGridSource } from './igridSource';
-import { PageData } from './pageData';
+import { PageResponse } from './pageResponse';
 import { PageDetails } from './pageDetails';
+import { PageRequest } from './pageRequest';
 import { Paging } from './paging.component';
 
 
@@ -16,9 +17,7 @@ export class GridComponent implements OnChanges{
     @Input() columns : Column[];
     @Output() getPage: EventEmitter<number> = new EventEmitter<number>();
 
-    page : PageData;
     pageDetails : PageDetails;
-    selectedIds : number[] = [];
 
     constructor(){
         this.pageDetails = new PageDetails(0, 10);
@@ -33,44 +32,23 @@ export class GridComponent implements OnChanges{
     }
 
     getItems(){
-        this.page = this.gridSource.getPage(this.pageDetails);
-        this.pageDetails.update(this.page);
+        this.pageDetails.update(this.gridSource.getPage(new PageRequest(this.pageDetails.pageIndex, this.pageDetails.pageSize)));
     }
 
     onSelectItem(id : number){
-        if (this.selectedIds.indexOf(id, 0) >= 0){
-            var index = this.selectedIds.indexOf(id, 0);
-            this.selectedIds.splice(index, 1);
-        } else{
-            this.selectedIds.push(id);
-        }
-
-        if (this.page.totalCount == this.selectedIds.length){
-                this.selectedIds = [];
-                this.pageDetails.allSelected = !this.pageDetails.allSelected;
-        }
+        this.pageDetails.selectItem(id);
     }
 
     onSelectAll(){
-        if (this.pageDetails.allSelected && this.selectedIds.length > 0){
-            this.pageDetails.allSelected = true;
-        } else{
-            this.pageDetails.allSelected = !this.pageDetails.allSelected;
-        }
-
-        this.selectedIds = [];
-    }
-
-    onPageSizeChanged(pageSize : number){
-        this.pageDetails.pageSize = +pageSize;
+        this.pageDetails.selectAll();
     }
 
     isSelected(id: number){
-        return (this.pageDetails.allSelected && this.selectedIds.indexOf(id, 0) == -1)
-        || (!this.pageDetails.allSelected && this.selectedIds.indexOf(id, 0) != -1);
+        return (this.pageDetails.allSelected && this.pageDetails.selectedIds.indexOf(id, 0) == -1)
+        || (!this.pageDetails.allSelected && this.pageDetails.selectedIds.indexOf(id, 0) != -1);
     }
 
     isAllSelected(){
-        return this.pageDetails.allSelected && this.selectedIds.length == 0;
+        return this.pageDetails.allSelected && this.pageDetails.selectedIds.length == 0;
     }
 }

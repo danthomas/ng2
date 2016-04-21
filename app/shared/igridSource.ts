@@ -1,6 +1,6 @@
-import { PageData } from './pageData';
-import { PageDetails} from './pageDetails';
+import { PageRequest } from './pageRequest';
+import { PageResponse } from './pageResponse';
 
 export interface IGridSource{
-    getPage(pageDetails: PageDetails) : PageData;
+    getPage(pageRequest : PageRequest) : PageResponse;
 }
