@@ -3,27 +3,28 @@ import { Component, OnInit } from 'angular2/core';
 import { GridComponent } from './shared/grid.component';
 import { Column } from './shared/column';
 import { IGridSource } from './shared/igridSource';
-import { Page, PageDetails } from './shared/page';
+import { PageData } from './shared/pageData';
+import { PageDetails } from './shared/pageDetails';
 
 @Component({
     template: '<grid [columns]="columns" [gridSource]="gridSource"></grid>',
     directives : [GridComponent],
 })
 export class ListComponent implements OnInit {
-    
+
     gridSource : IGridSource = new TestGrid();
-    
+
     columns : Column[] = [
-        new Column("User NameX"), 
-        new Column("First NameX"), 
+        new Column("User NameX"),
+        new Column("First NameX"),
         new Column("Last NameX")]
-    
+
     ngOnInit(){
-        
+
     }
 }
 export class TestGrid implements IGridSource{
-    
+
     items = [
                 [1, '1thomasd', 'asfas', 'dd'],
                 [2, '2jonesg', 'asfas', 'dd'],
@@ -67,22 +68,22 @@ export class TestGrid implements IGridSource{
                 [40, '20jgha;g', 'asfas', 'dd'],
                 [41, '21ywtqyw', 'asfas', 'dd']
                 ];
-        
-    
-    getPage(pageDetails: PageDetails) : Page{
+
+
+    getPage(pageDetails: PageDetails) : PageData{
         console.log('getting data');
         let totalCount : number = this.items.length;
         let pageIndex : number = pageDetails.pageIndex;
         let startIndex : number = pageDetails.pageIndex * pageDetails.pageSize;
-        
+
         if(pageDetails.pageIndex * pageDetails.pageSize > totalCount){
             pageIndex = Math.floor(totalCount / pageDetails.pageSize);
             startIndex = pageIndex * pageDetails.pageSize;
-        }        
-        
+        }
+
         let endIndex : number = startIndex + pageDetails.pageSize;
-        
-        return new Page(this.items.slice(startIndex, endIndex), 
+
+        return new PageData(this.items.slice(startIndex, endIndex),
         pageIndex,
         totalCount,
         [5, 10, 25, 50, 100]);

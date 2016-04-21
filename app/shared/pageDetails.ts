@@ -1,4 +1,4 @@
-import { Page } from './Page';
+import { PageData } from './PageData';
 
 export class PageDetails{
     private _allSelected : boolean;
@@ -15,7 +15,7 @@ export class PageDetails{
         this._pageSize = pageSize;
     }
 
-    update(page : Page){
+    update(page : PageData){
         this._pageIndex = page.pageIndex;
         this._totalCount = page.totalCount;
         this._pageSizes = page.pageSizes;

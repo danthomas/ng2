@@ -1,7 +1,7 @@
 import { Component, Input, Output, OnChanges, SimpleChange, EventEmitter } from 'angular2/core';
 import { Column } from './column';
 import { IGridSource } from './igridSource';
-import { Page} from './page';
+import { PageData } from './pageData';
 import { PageDetails } from './pageDetails';
 import { Paging } from './paging.component';
 
@@ -16,7 +16,7 @@ export class GridComponent implements OnChanges{
     @Input() columns : Column[];
     @Output() getPage: EventEmitter<number> = new EventEmitter<number>();
 
-    page : Page;
+    page : PageData;
     pageDetails : PageDetails;
     selectedIds : number[] = [];
 

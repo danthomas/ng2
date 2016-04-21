@@ -1,21 +1,21 @@
 System.register([], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var Page;
+    var PageData;
     return {
         setters:[],
         execute: function() {
-            Page = (function () {
-                function Page(items, pageIndex, totalCount, pageSizes) {
+            PageData = (function () {
+                function PageData(items, pageIndex, totalCount, pageSizes) {
                     this.items = items;
                     this.pageIndex = pageIndex;
                     this.totalCount = totalCount;
                     this.pageSizes = pageSizes;
                 }
-                return Page;
+                return PageData;
             }());
-            exports_1("Page", Page);
+            exports_1("PageData", PageData);
         }
     }
 });
-//# sourceMappingURL=page.js.map
+//# sourceMappingURL=pageData.js.map

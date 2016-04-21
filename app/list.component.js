@@ -1,4 +1,4 @@
-System.register(['angular2/core', './shared/grid.component', './shared/column', './shared/page'], function(exports_1, context_1) {
+System.register(['angular2/core', './shared/grid.component', './shared/column', './shared/pageData'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', './shared/grid.component', './shared/column', 
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, grid_component_1, column_1, page_1;
+    var core_1, grid_component_1, column_1, pageData_1;
     var ListComponent, TestGrid;
     return {
         setters:[
@@ -23,8 +23,8 @@ System.register(['angular2/core', './shared/grid.component', './shared/column', 
             function (column_1_1) {
                 column_1 = column_1_1;
             },
-            function (page_1_1) {
-                page_1 = page_1_1;
+            function (pageData_1_1) {
+                pageData_1 = pageData_1_1;
             }],
         execute: function() {
             ListComponent = (function () {
@@ -103,7 +103,7 @@ System.register(['angular2/core', './shared/grid.component', './shared/column', 
                         startIndex = pageIndex * pageDetails.pageSize;
                     }
                     var endIndex = startIndex + pageDetails.pageSize;
-                    return new page_1.Page(this.items.slice(startIndex, endIndex), pageIndex, totalCount, [5, 10, 25, 50, 100]);
+                    return new pageData_1.PageData(this.items.slice(startIndex, endIndex), pageIndex, totalCount, [5, 10, 25, 50, 100]);
                 };
                 return TestGrid;
             }());

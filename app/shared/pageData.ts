@@ -1,4 +1,4 @@
-export class Page{
+export class PageData{
     items : any[][];
     pageIndex : number;
     totalCount : number;
