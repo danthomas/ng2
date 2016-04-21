@@ -3,8 +3,7 @@ import { Component, OnInit } from 'angular2/core';
 import { GridComponent } from './shared/grid.component';
 import { Column } from './shared/column';
 import { IGridSource } from './shared/igridSource';
-import { Page } from './shared/page';
-import { Paging } from './shared/paging';
+import { Page, PageDetails } from './shared/page';
 
 @Component({
     template: '<grid [columns]="columns" [gridSource]="gridSource"></grid>',
@@ -70,20 +69,18 @@ export class TestGrid implements IGridSource{
                 ];
         
     
-    getPage(paging: Paging) : Page{
+    getPage(pageDetails: PageDetails) : Page{
         console.log('getting data');
         let totalCount : number = this.items.length;
-        let pageIndex : number = paging.pageIndex;
-        let startIndex : number = paging.pageIndex * paging.pageSize;
+        let pageIndex : number = pageDetails.pageIndex;
+        let startIndex : number = pageDetails.pageIndex * pageDetails.pageSize;
         
-        if(paging.pageIndex * paging.pageSize > totalCount){
-            pageIndex = Math.floor(totalCount / paging.pageSize);
-            startIndex = pageIndex * paging.pageSize;
+        if(pageDetails.pageIndex * pageDetails.pageSize > totalCount){
+            pageIndex = Math.floor(totalCount / pageDetails.pageSize);
+            startIndex = pageIndex * pageDetails.pageSize;
         }        
         
-        let endIndex : number = startIndex + paging.pageSize;
-        console.log(startIndex);
-        console.log(endIndex);
+        let endIndex : number = startIndex + pageDetails.pageSize;
         
         return new Page(this.items.slice(startIndex, endIndex), 
         pageIndex,

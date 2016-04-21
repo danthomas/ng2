@@ -1,6 +1,5 @@
-import {Page} from './page';
-import {Paging} from './paging';
+import {Page, PageDetails} from './page';
 
 export interface IGridSource{
-    getPage(paging: Paging) : Page;
+    getPage(pageDetails: PageDetails) : Page;
 }

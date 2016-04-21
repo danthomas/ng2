@@ -1,4 +1,4 @@
-System.register(['angular2/core', './paging'], function(exports_1, context_1) {
+System.register(['angular2/core', './pageDetails', './paging.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,36 +10,35 @@ System.register(['angular2/core', './paging'], function(exports_1, context_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, paging_1;
+    var core_1, pageDetails_1, paging_component_1;
     var GridComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (paging_1_1) {
-                paging_1 = paging_1_1;
+            function (pageDetails_1_1) {
+                pageDetails_1 = pageDetails_1_1;
+            },
+            function (paging_component_1_1) {
+                paging_component_1 = paging_component_1_1;
             }],
         execute: function() {
             GridComponent = (function () {
                 function GridComponent() {
-                    var _this = this;
                     this.getPage = new core_1.EventEmitter();
                     this.selectedIds = [];
-                    this.paging = new paging_1.Paging(0, 10);
-                    this.paging.changed.subscribe(function () {
-                        _this.getItems();
-                    });
+                    this.pageDetails = new pageDetails_1.PageDetails(0, 10);
                 }
+                GridComponent.prototype.onPagingChanged = function () {
+                    this.getItems();
+                };
                 GridComponent.prototype.ngOnChanges = function (changes) {
                     this.getItems();
                 };
                 GridComponent.prototype.getItems = function () {
-                    this.page = this.gridSource.getPage(this.paging);
-                    this.paging.pageIndex = this.page.pageIndex;
-                    this.paging.totalCount = this.page.totalCount;
-                    this.paging.pageSizes = this.page.pageSizes;
-                    this.updateDetails();
+                    this.page = this.gridSource.getPage(this.pageDetails);
+                    this.pageDetails.update(this.page);
                 };
                 GridComponent.prototype.onSelectItem = function (id) {
                     if (this.selectedIds.indexOf(id, 0) >= 0) {
@@ -51,50 +50,27 @@ System.register(['angular2/core', './paging'], function(exports_1, context_1) {
                     }
                     if (this.page.totalCount == this.selectedIds.length) {
                         this.selectedIds = [];
-                        this.paging.allSelected = !this.paging.allSelected;
+                        this.pageDetails.allSelected = !this.pageDetails.allSelected;
                     }
-                    this.updateDetails();
                 };
                 GridComponent.prototype.onSelectAll = function () {
-                    if (this.paging.allSelected && this.selectedIds.length > 0) {
-                        this.paging.allSelected = true;
+                    if (this.pageDetails.allSelected && this.selectedIds.length > 0) {
+                        this.pageDetails.allSelected = true;
                     }
                     else {
-                        this.paging.allSelected = !this.paging.allSelected;
+                        this.pageDetails.allSelected = !this.pageDetails.allSelected;
                     }
                     this.selectedIds = [];
-                    this.updateDetails();
                 };
                 GridComponent.prototype.onPageSizeChanged = function (pageSize) {
-                    this.paging.pageSize = +pageSize;
-                };
-                GridComponent.prototype.first = function () {
-                    this.paging.first();
-                };
-                GridComponent.prototype.onPrev = function () {
-                    this.paging.prev();
-                };
-                GridComponent.prototype.onNext = function () {
-                    this.paging.next();
-                };
-                GridComponent.prototype.last = function () {
-                    this.paging.last();
-                };
-                GridComponent.prototype.prevDisabled = function () {
-                    return this.paging.prevDisabled;
-                };
-                GridComponent.prototype.nextDisabled = function () {
-                    return this.paging.nextDisabled;
+                    this.pageDetails.pageSize = +pageSize;
                 };
                 GridComponent.prototype.isSelected = function (id) {
-                    return (this.paging.allSelected && this.selectedIds.indexOf(id, 0) == -1)
-                        || (!this.paging.allSelected && this.selectedIds.indexOf(id, 0) != -1);
+                    return (this.pageDetails.allSelected && this.selectedIds.indexOf(id, 0) == -1)
+                        || (!this.pageDetails.allSelected && this.selectedIds.indexOf(id, 0) != -1);
                 };
                 GridComponent.prototype.isAllSelected = function () {
-                    return this.paging.allSelected && this.selectedIds.length == 0;
-                };
-                GridComponent.prototype.updateDetails = function () {
-                    this.pageDetails = this.paging.text;
+                    return this.pageDetails.allSelected && this.selectedIds.length == 0;
                 };
                 __decorate([
                     core_1.Input(), 
@@ -111,7 +87,8 @@ System.register(['angular2/core', './paging'], function(exports_1, context_1) {
                 GridComponent = __decorate([
                     core_1.Component({
                         templateUrl: 'app/shared/grid.component.html',
-                        selector: 'grid'
+                        selector: 'grid',
+                        directives: [paging_component_1.Paging],
                     }), 
                     __metadata('design:paramtypes', [])
                 ], GridComponent);

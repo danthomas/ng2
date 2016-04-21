@@ -1,18 +1,12 @@
 <h1>{{data}}</h1>
-<div>    
-    {{pageDetails}}
-    <button (click)='log()'>Log</button>
-</div>
+<label>{{pageDetails.text}}</label>
 <div>Page Size: 
-    <select [ngModel]="paging.pageSize" (change)="onPageSizeChanged($event.target.value)">
-        <option *ngFor="#pageSize of paging.pageSizes">{{pageSize}}</option>
+    <select [ngModel]="pageDetails.pageSize" (change)="onPageSizeChanged($event.target.value)">
+        <option *ngFor="#pageSize of pageDetails.pageSizes">{{pageSize}}</option>
     </select>
 </div>
-<div>    
-    <button class='btn btn-primary' (click)='first()' [disabled]='prevDisabled()'>First</button>
-    <button class='btn btn-primary' (click)='onPrev()' [disabled]='prevDisabled()'>Prev</button>
-    <button class='btn btn-primary' (click)='onNext()' [disabled]='nextDisabled()'>Next</button>
-    <button class='btn btn-primary' (click)='last()' [disabled]='nextDisabled()'>Last</button>
+<div>
+    <paging [pageDetails]="pageDetails" (changed)="onPagingChanged()"></paging>
 </div>
 <div class='table-responsive'>
 <table class='table'>

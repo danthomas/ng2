@@ -1,40 +1,38 @@
-import { Component } from 'angular2/core';
+import { Component, Input } from 'angular2/core';
+
+class Thing{
+    name : string;
+    
+    constructor(name : string){
+        this.name = name;
+    }
+}
+
+
+@Component({
+    template: `
+    <input [(ngModel)]="thing.name" type="text" />
+    `, 
+    selector: 'child'
+})
+export class ChildComponent {
+   @Input() thing : Thing;
+}
 
 @Component({
     template: `    
-    
-    <div>{{logDetails}}</div>
-    
-    
-    <div><input type='checkBox' [ngModel]='allSelected' (click)='onAllSelectedClick()' /></div>
-    
-    <div><input type='checkBox' [ngModel]='isSelected(0)' (click)='onClick(0)' /></div>
-    <div><input type='checkBox' [ngModel]='isSelected(1)' (click)='onClick(1)'/></div>
-    <div><input type='checkBox' [ngModel]='isSelected(2)' (click)='onClick(2)'/></div>
-    
-    `
+    <button (click)="click()">Click</button>
+   <child [thing]="_thing"></child>
+    `, directives: [ChildComponent]
 })
 export class TestComponent {
-    logDetails : string;
-    value : string = 'abcd';
-    allSelected : boolean = false;
-    selected : boolean[] = [true, false, true];
+    private _thing : Thing;
     
-    isSelected(index: number){
-        return this.allSelected || this.selected[index];
+    constructor(){
+        this._thing = new Thing('dan')
     }
     
-    onAllSelectedClick(index: number){
-        this.allSelected = !this.allSelected;
-        this.log();
-    }
-    
-    onClick(index: number){
-        this.selected[index] = !this.selected[index];
-        this.log(); 
-    }
-    
-    log(){       
-        this.logDetails = '' + this.allSelected + ' : ' + this.selected;
+    click(){
+        console.log(this._thing.name);
     }
 }

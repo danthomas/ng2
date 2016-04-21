@@ -93,18 +93,16 @@ System.register(['angular2/core', './shared/grid.component', './shared/column', 
                         [41, '21ywtqyw', 'asfas', 'dd']
                     ];
                 }
-                TestGrid.prototype.getPage = function (paging) {
+                TestGrid.prototype.getPage = function (pageDetails) {
                     console.log('getting data');
                     var totalCount = this.items.length;
-                    var pageIndex = paging.pageIndex;
-                    var startIndex = paging.pageIndex * paging.pageSize;
-                    if (paging.pageIndex * paging.pageSize > totalCount) {
-                        pageIndex = Math.floor(totalCount / paging.pageSize);
-                        startIndex = pageIndex * paging.pageSize;
+                    var pageIndex = pageDetails.pageIndex;
+                    var startIndex = pageDetails.pageIndex * pageDetails.pageSize;
+                    if (pageDetails.pageIndex * pageDetails.pageSize > totalCount) {
+                        pageIndex = Math.floor(totalCount / pageDetails.pageSize);
+                        startIndex = pageIndex * pageDetails.pageSize;
                     }
-                    var endIndex = startIndex + paging.pageSize;
-                    console.log(startIndex);
-                    console.log(endIndex);
+                    var endIndex = startIndex + pageDetails.pageSize;
                     return new page_1.Page(this.items.slice(startIndex, endIndex), pageIndex, totalCount, [5, 10, 25, 50, 100]);
                 };
                 return TestGrid;
