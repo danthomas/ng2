@@ -63,11 +63,8 @@ System.register([], function(exports_1, context_1) {
                     this.updateText();
                 };
                 PageDetails.prototype.selectAll = function () {
-                    if (this.allSelected && this.selectedIds.length > 0) {
-                        this.allSelected = true;
-                    }
-                    else {
-                        this.allSelected = !this.allSelected;
+                    if (!this._allSelected || this.selectedIds.length == 0) {
+                        this._allSelected = !this._allSelected;
                     }
                     this.selectedIds = [];
                     this.updateText();

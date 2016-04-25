@@ -72,10 +72,8 @@ export class PageDetails{
     }
 
     selectAll(){
-        if (this.allSelected && this.selectedIds.length > 0){
-            this.allSelected = true;
-        } else{
-            this.allSelected = !this.allSelected;
+        if (!this._allSelected || this.selectedIds.length == 0){
+            this._allSelected = !this._allSelected;
         }
 
         this.selectedIds = [];

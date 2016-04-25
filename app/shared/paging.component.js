@@ -102,13 +102,6 @@ System.register(['angular2/core', './pageDetails'], function(exports_1, context_
                     enumerable: true,
                     configurable: true
                 });
-                Object.defineProperty(Paging.prototype, "totalCount", {
-                    get: function () {
-                        return this.pageDetails.totalCount;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', pageDetails_1.PageDetails)

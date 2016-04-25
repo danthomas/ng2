@@ -90,8 +90,4 @@ export class Paging{
     set allSelected(allSelected : boolean){
         this.pageDetails.allSelected = allSelected;
     }
-
-    get totalCount() : number{
-        return this.pageDetails.totalCount;
-    }
 }
