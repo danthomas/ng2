@@ -1,4 +1,4 @@
-System.register(['angular2/core', './pageDetails', './pageRequest', './paging.component'], function(exports_1, context_1) {
+System.register(['angular2/core', './pageDetails', './paging.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', './pageDetails', './pageRequest', './paging.co
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, pageDetails_1, pageRequest_1, paging_component_1;
+    var core_1, pageDetails_1, paging_component_1;
     var GridComponent;
     return {
         setters:[
@@ -20,26 +20,24 @@ System.register(['angular2/core', './pageDetails', './pageRequest', './paging.co
             function (pageDetails_1_1) {
                 pageDetails_1 = pageDetails_1_1;
             },
-            function (pageRequest_1_1) {
-                pageRequest_1 = pageRequest_1_1;
-            },
             function (paging_component_1_1) {
                 paging_component_1 = paging_component_1_1;
             }],
         execute: function() {
             GridComponent = (function () {
                 function GridComponent() {
+                    var _this = this;
                     this.getPage = new core_1.EventEmitter();
                     this.pageDetails = new pageDetails_1.PageDetails(0, 10);
+                    this.pageDetails.getPage.subscribe(function (pageRequest) {
+                        _this.getItems(pageRequest);
+                    });
                 }
-                GridComponent.prototype.onPagingChanged = function () {
-                    this.getItems();
-                };
                 GridComponent.prototype.ngOnChanges = function (changes) {
-                    this.getItems();
+                    this.pageDetails.pageSource = changes["gridSource"].currentValue;
                 };
-                GridComponent.prototype.getItems = function () {
-                    this.pageDetails.update(this.gridSource.getPage(new pageRequest_1.PageRequest(this.pageDetails.pageIndex, this.pageDetails.pageSize)));
+                GridComponent.prototype.getItems = function (pageRequest) {
+                    this.pageDetails.update(this.gridSource.getPage(pageRequest));
                 };
                 GridComponent.prototype.onSelectItem = function (id) {
                     this.pageDetails.selectItem(id);

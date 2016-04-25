@@ -1,15 +1,23 @@
-System.register([], function(exports_1, context_1) {
+System.register(['angular2/core', './PageRequest'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
+    var core_1, PageRequest_1;
     var PageDetails;
     return {
-        setters:[],
+        setters:[
+            function (core_1_1) {
+                core_1 = core_1_1;
+            },
+            function (PageRequest_1_1) {
+                PageRequest_1 = PageRequest_1_1;
+            }],
         execute: function() {
             PageDetails = (function () {
                 function PageDetails(pageIndex, pageSize) {
                     this._selectedIds = [];
                     this._pageIndex = pageIndex;
                     this._pageSize = pageSize;
+                    this._getPage = new core_1.EventEmitter();
                 }
                 PageDetails.prototype.update = function (pageResponse) {
                     this._items = pageResponse.items;
@@ -81,6 +89,13 @@ System.register([], function(exports_1, context_1) {
                 PageDetails.prototype.last = function () {
                     this.pageIndex = this.pageCount - 1;
                 };
+                Object.defineProperty(PageDetails.prototype, "getPage", {
+                    get: function () {
+                        return this._getPage;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 Object.defineProperty(PageDetails.prototype, "items", {
                     get: function () {
                         return this._items;
@@ -94,6 +109,7 @@ System.register([], function(exports_1, context_1) {
                     },
                     set: function (pageIndex) {
                         this._pageIndex = pageIndex;
+                        this._getPage.emit(new PageRequest_1.PageRequest(this._pageIndex, this._pageSize));
                     },
                     enumerable: true,
                     configurable: true
@@ -104,6 +120,7 @@ System.register([], function(exports_1, context_1) {
                     },
                     set: function (pageSize) {
                         this._pageSize = pageSize;
+                        this._getPage.emit(new PageRequest_1.PageRequest(this._pageIndex, this._pageSize));
                     },
                     enumerable: true,
                     configurable: true
@@ -154,6 +171,17 @@ System.register([], function(exports_1, context_1) {
                 Object.defineProperty(PageDetails.prototype, "text", {
                     get: function () {
                         return this._text;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(PageDetails.prototype, "pageSource", {
+                    get: function () {
+                        return this._pageSource;
+                    },
+                    set: function (pageSource) {
+                        this._pageSource = pageSource;
+                        this._getPage.emit(new PageRequest_1.PageRequest(this._pageIndex, this._pageSize));
                     },
                     enumerable: true,
                     configurable: true

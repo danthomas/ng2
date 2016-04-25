@@ -1,4 +1,7 @@
+import { EventEmitter } from 'angular2/core';
 import { PageResponse } from './PageResponse';
+import { PageRequest } from './PageRequest';
+import { IGridSource } from './IGridSource';
 
 export class PageDetails{
     private _allSelected : boolean;
@@ -10,10 +13,13 @@ export class PageDetails{
     private _pageSizes : number[];
     private _items: any[][];
     private _text: string;
+    private _getPage: EventEmitter<PageRequest>;
+    private _pageSource : IGridSource;
 
     constructor(pageIndex : number, pageSize : number){
         this._pageIndex = pageIndex;
         this._pageSize = pageSize;
+        this._getPage = new EventEmitter<PageRequest>();
     }
 
     update(pageResponse : PageResponse){
@@ -97,6 +103,10 @@ export class PageDetails{
         this.pageIndex = this.pageCount - 1;
     }
 
+    get getPage() : EventEmitter<PageRequest>{
+        return this._getPage;
+    }
+
     get items() : any[][]{
         return this._items;
     }
@@ -107,6 +117,7 @@ export class PageDetails{
 
     set pageIndex(pageIndex : number){
         this._pageIndex = pageIndex;
+        this._getPage.emit(new PageRequest(this._pageIndex, this._pageSize));
     }
 
     get pageSize() : number{
@@ -115,6 +126,7 @@ export class PageDetails{
 
     set pageSize(pageSize : number){
         this._pageSize = pageSize;
+        this._getPage.emit(new PageRequest(this._pageIndex, this._pageSize));
     }
 
     get pageCount() : number{
@@ -149,5 +161,14 @@ export class PageDetails{
 
     get text() : string{
         return this._text;
+    }
+
+    get pageSource() : IGridSource{
+        return this._pageSource;
+    }
+
+    set pageSource(pageSource : IGridSource){
+        this._pageSource = pageSource;
+        this._getPage.emit(new PageRequest(this._pageIndex, this._pageSize));
     }
 }

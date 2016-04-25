@@ -15,24 +15,23 @@ import { Paging } from './paging.component';
 export class GridComponent implements OnChanges{
     @Input() gridSource : IGridSource
     @Input() columns : Column[];
-    @Output() getPage: EventEmitter<number> = new EventEmitter<number>();
+    @Output() getPage: EventEmitter<PageRequest> = new EventEmitter<PageRequest>();
 
     pageDetails : PageDetails;
 
     constructor(){
         this.pageDetails = new PageDetails(0, 10);
-    }
-
-    onPagingChanged(){
-        this.getItems();
+        this.pageDetails.getPage.subscribe((pageRequest: PageRequest) => {
+            this.getItems(pageRequest);
+        });
     }
 
     ngOnChanges(changes: {[propName: string]: SimpleChange}) {
-        this.getItems();
+        this.pageDetails.pageSource = changes["gridSource"].currentValue;
     }
 
-    getItems(){
-        this.pageDetails.update(this.gridSource.getPage(new PageRequest(this.pageDetails.pageIndex, this.pageDetails.pageSize)));
+    getItems(pageRequest: PageRequest){
+        this.pageDetails.update(this.gridSource.getPage(pageRequest));
     }
 
     onSelectItem(id : number){
